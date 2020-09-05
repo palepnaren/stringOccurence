@@ -8,6 +8,7 @@ public class StringOccurence2 {
 
 //	asdjkdAj
 	public static void main(String[] args) {
+		int count =0;
 		
 		System.out.println("Enter the String: ");
 		
@@ -18,32 +19,27 @@ public class StringOccurence2 {
 		char[] charArray = str.toCharArray();
 		StringBuilder builder = new StringBuilder();
 		
-		LinkedList<Mapping> orgiList = new LinkedList<Mapping>();
 		LinkedList<Mapping> list = new LinkedList<Mapping>();
 		
 		for(char c: charArray) {
 			Mapping repetetive = checkStringIfRepetetive(c,str);
 			list.add(repetetive);
-			orgiList.add(repetetive);
 		}
 
-		
+
 		Collections.sort(list, new ValueSort().thenComparing(new KeySort()));
-//		Collections.sort(orgiList, new ValueSort());
 		
-		
+		System.out.println(list);
 		
 		
 		for (Mapping mapping : list) {
-//			BSystem.out.println(mapping.getKey()+"--"+mapping.getValue());
+			
+//			System.out.println(mapping.getKey()+"--"+mapping.getValue());
 			
 			if(mapping.getValue() ==1) {
 				builder.append(mapping.getKey());
 			} else {
-				
-				builder.append(mapping.getKey());
-				 
-				
+				builder.append(mapping.getKey());	
 			}
 			
 		}
@@ -92,6 +88,12 @@ class Mapping{
 		this.value = value;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return "{Char: " +key+" value: "+value+"}";
+	}
+	
 }
 
 class ValueSort implements Comparator<Mapping>{
@@ -107,8 +109,18 @@ class KeySort implements Comparator<Mapping>{
 
 	@Override
 	public int compare(Mapping o1, Mapping o2) {
-		if(o1.getValue() >1 && o2.getValue()>1)
-			return Character.toString(o1.getKey()).compareTo(Character.toString(o2.getKey()));
+		if(o1.getValue() >1 && o2.getValue()>1) {
+			if(Character.toString(o2.getKey()).compareTo(Character.toString(o1.getKey()).toUpperCase()) == 0) {
+				System.out.println("I am inside: "+o1.getKey()+" comparing with "+o2.getKey());
+				return Character.toString(o2.getKey()).compareToIgnoreCase(Character.toString(o1.getKey()));
+			} 
+			else {
+				return Character.toString(o2.getKey()).compareTo(Character.toString(o1.getKey()));
+			}
+//			return Character.toString(o1.getKey()).compareTo(Character.toString(o2.getKey()));
+				
+		}
+			
 		else
 			return o1.getValue() - o2.getValue();
 	}
